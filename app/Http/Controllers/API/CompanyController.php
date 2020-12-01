@@ -129,7 +129,7 @@ class CompanyController extends Controller
         $rules = [
             'name' => 'required',
             'email' => 'email:rfc',
-            'logo' => 'file|mimes:jpeg,jpg,png,gif|required|max:2048|dimensions:min-width=100,min-height=100',
+            // 'logo' => 'file|mimes:jpeg,jpg,png,gif|required|max:2048|dimensions:min-width=100,min-height=100',
             'website'=> 'url'
         ];
 
