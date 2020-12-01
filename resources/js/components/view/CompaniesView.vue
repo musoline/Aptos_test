@@ -175,6 +175,7 @@ export default {
       imageName:'',
       imageUrl:'',
       imageFile:'',
+      _method:"PUT",
       file:[],
       filters: {},
       headers: [
@@ -252,19 +253,17 @@ export default {
       },
       updateCompany(data) {
         data.logo = this.imageFile;
-        // console.log(data);
-        // let formData = new FormData();
-        // for (let [key, val] of Object.entries(data)) {
-        //   if (Array.isArray(val)) {
-        //     val.forEach(function(e) {
-        //       formData.append(key + "[]", e);
-        //     });
-        //   } else formData.append(key, val);
-        // }
-
-        // console.log(formData);
+        data._method = "PUT";
+        let formData = new FormData();
+        for (let [key, val] of Object.entries(data)) {
+          if (Array.isArray(val)) {
+            val.forEach(function(e) {
+              formData.append(key + "[]", e);
+            });
+          } else formData.append(key, val);
+        }
       axios
-        .put("/api/company/"+data.id, data)
+        .post("/api/company/"+data.id, formData)
         .then(res => {
           if(res.data.success){
             this.fetchRemoteDataMixin(this.link, this.filters);

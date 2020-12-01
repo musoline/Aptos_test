@@ -2249,6 +2249,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       imageName: '',
       imageUrl: '',
       imageFile: '',
+      _method: "PUT",
       file: [],
       filters: {},
       headers: [{
@@ -2333,29 +2334,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     updateCompany: function updateCompany(data) {
       var _this2 = this;
 
-      data.logo = this.imageFile; // console.log(data);
-      // let formData = new FormData();
-      // for (let [key, val] of Object.entries(data)) {
-      //   if (Array.isArray(val)) {
-      //     val.forEach(function(e) {
-      //       formData.append(key + "[]", e);
-      //     });
-      //   } else formData.append(key, val);
-      // }
-      // console.log(formData);
-
-      axios.put("/api/company/" + data.id, data).then(function (res) {
-        if (res.data.success) {
-          _this2.fetchRemoteDataMixin(_this2.link, _this2.filters);
-        }
-      })["catch"](function (err) {
-        console.log("Error", err);
-      });
-    },
-    createCompany: function createCompany(data) {
-      var _this3 = this;
-
       data.logo = this.imageFile;
+      data._method = "PUT";
       var formData = new FormData();
 
       var _loop = function _loop() {
@@ -2372,6 +2352,36 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
       for (var _i = 0, _Object$entries = Object.entries(data); _i < _Object$entries.length; _i++) {
         _loop();
+      }
+
+      axios.post("/api/company/" + data.id, formData).then(function (res) {
+        if (res.data.success) {
+          _this2.fetchRemoteDataMixin(_this2.link, _this2.filters);
+        }
+      })["catch"](function (err) {
+        console.log("Error", err);
+      });
+    },
+    createCompany: function createCompany(data) {
+      var _this3 = this;
+
+      data.logo = this.imageFile;
+      var formData = new FormData();
+
+      var _loop2 = function _loop2() {
+        var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+            key = _Object$entries2$_i[0],
+            val = _Object$entries2$_i[1];
+
+        if (Array.isArray(val)) {
+          val.forEach(function (e) {
+            formData.append(key + "[]", e);
+          });
+        } else formData.append(key, val);
+      };
+
+      for (var _i2 = 0, _Object$entries2 = Object.entries(data); _i2 < _Object$entries2.length; _i2++) {
+        _loop2();
       }
 
       axios.post("/api/company", formData).then(function (res) {

@@ -149,6 +149,7 @@ class CompanyController extends Controller
                 $tmpName = $name;
                 $fileName = $file->storeAs('public', $tmpName, ['disk'=>'local']);
                 $url = URL::asset('storage/'.$fileName);
+                $all["logo"]=$tmpName;
             }else{
                 unset($all['logo']);
             }
