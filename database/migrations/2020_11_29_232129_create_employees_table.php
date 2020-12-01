@@ -22,6 +22,11 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->timestamps();
         });
+
+        Schema::table('employees', function ($table){
+            $table->foreign('company_id')->references('id')->on('companies');
+        });
+
     }
 
     /**
